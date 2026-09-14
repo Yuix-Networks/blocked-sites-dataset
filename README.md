@@ -3,6 +3,14 @@
 Which websites are measurably blocked, in which country, month by month —
 as CSV you can open in anything.
 
+> **The data is OONI's, not ours.** Every number here comes from
+> [OONI](https://ooni.org)'s public measurements and carries their licence:
+> [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+> — attribution, **non-commercial**, share-alike. What this repository adds
+> is the aggregation and the documentation. If your use is commercial, that
+> is a conversation to have with OONI. Full terms and the attribution to
+> carry: [LICENSE](LICENSE).
+
 Every row comes from [OONI](https://ooni.org)'s public measurements. OONI
 publishes the raw data, but answering "what is blocked in Turkey right
 now" from it means learning an API, understanding four different counters
