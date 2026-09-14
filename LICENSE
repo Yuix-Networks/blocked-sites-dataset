@@ -1,0 +1,31 @@
+# Licence
+
+This repository carries two licences, because it holds two different
+things.
+
+## Data — `data/`
+
+Derived from OONI's published measurements, and therefore under the same
+terms OONI publishes them under:
+
+**Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+(CC BY-NC-SA 4.0)**
+
+- Deed: https://creativecommons.org/licenses/by-nc-sa/4.0/
+- Legal code: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
+- OONI's own statement: https://github.com/ooni/license/tree/master/data
+
+Note the **NC**. OONI licenses its website *content* under BY-SA but its
+*data* under BY-NC-SA, and these files are a derivative of the data. For
+commercial reuse, ask OONI.
+
+Attribution to carry with any reuse:
+
+```
+Data: OONI (https://ooni.org), CC BY-NC-SA 4.0, aggregated by
+Unblock Master — https://www.unblockmaster.com/internet-censorship-tracker/
+```
+
+## Code — `tools/`, `tests/`
+
+MIT. See [LICENSE-CODE](LICENSE-CODE).

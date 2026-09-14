@@ -1,0 +1,98 @@
+name: Monthly refresh
+
+# Build the previous month on the 4th. OONI's aggregates keep settling for
+# a couple of days after a month ends as probes upload late; the 4th is
+# late enough that the file does not need rewriting, early enough to be
+# useful.
+on:
+  schedule:
+    - cron: "0 5 4 * *"
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "YYYY-MM to build (default: last complete month)"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Test
+        run: |
+          pip install pytest
+          pytest -q
+
+      - name: Build
+        run: python tools/build.py ${{ inputs.month }} 2>&1 | tee /tmp/build.log
+
+      - name: Sanity-check the result
+        # The build refuses to write an empty month, but a month that came
+        # back a tenth of its usual size is the more likely failure: OONI
+        # degraded, or half the calls timed out and returned thin results.
+        # Nobody reviews this commit, so it gets checked here.
+        run: |
+          python - <<'PY'
+          import csv, glob, os, sys
+
+          months = sorted(glob.glob("data/monthly/*.csv"))
+          rows = {m: sum(1 for _ in open(m, encoding="utf-8")) - 1 for m in months}
+          for month, count in rows.items():
+              print("%s  %6d rows" % (os.path.basename(month), count))
+
+          if len(months) < 2:
+              print("Only one month so far; nothing to compare against.")
+              sys.exit(0)
+
+          newest, previous = months[-1], months[-2]
+          if rows[newest] < rows[previous] * 0.5:
+              sys.exit(
+                  "\n%s has %d rows against %s's %d — less than half. Either "
+                  "OONI had a bad month or the fetch did. Not committing."
+                  % (newest, rows[newest], previous, rows[previous])
+              )
+          PY
+
+      - name: Commit
+        run: |
+          if git diff --quiet -- data/; then
+            echo "Nothing changed." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+
+          {
+            echo "data: refresh from OONI"
+            echo
+            echo "Rebuilt from OONI's public aggregation API. A CSV diff is"
+            echo "unreadable at this size, so the build log is below."
+            echo
+            cat /tmp/build.log
+          } > /tmp/commit-message
+
+          git commit -F /tmp/commit-message
+          git push
+
+      - name: Report
+        if: always()
+        run: |
+          {
+            echo '## Build log'
+            echo '```'
+            cat /tmp/build.log 2>/dev/null || echo '(the build produced no log)'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
