@@ -11,6 +11,7 @@ type: dataset
 authors:
   - name: Yuix Networks Inc
     website: "https://yuix.org"
+doi: "10.5281/zenodo.22769312"
 repository-code: "https://github.com/Yuix-Networks/blocked-sites-dataset"
 url: "https://www.unblockmaster.com/internet-censorship-tracker/"
 abstract: >-

@@ -1,5 +1,7 @@
 # blocked-sites-dataset
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22769312.svg)](https://doi.org/10.5281/zenodo.22769312)
+
 Which websites are measurably blocked, in which country, month by month —
 as CSV you can open in anything.
 
@@ -79,17 +81,21 @@ data rather than in ours.
 
 ## Citing it
 
-Each month's file is also published as a GitHub release, so a citation can
-point at a fixed snapshot rather than at a moving `main`. If you need a
-persistent identifier, cite the DOI on the release; `CITATION.cff` in this
-repository carries the machine-readable version, and GitHub renders it as
-a **Cite this repository** button in the sidebar.
+The dataset is archived on Zenodo with a DOI. Cite this one — it is the
+*concept* DOI and always resolves to the newest version:
+
+**[10.5281/zenodo.22769312](https://doi.org/10.5281/zenodo.22769312)**
+
+Each month is also archived separately with its own version DOI, so a
+claim can be pinned to the exact data it was made from. `CITATION.cff` in
+this repository carries the machine-readable form, which GitHub renders
+as a **Cite this repository** button in the sidebar.
 
 Whatever you cite, cite OONI too — the measurements are theirs:
 
 ```
-OONI (https://ooni.org), CC BY-NC-SA 4.0, aggregated by Unblock Master,
-blocked-sites-dataset, https://github.com/Yuix-Networks/blocked-sites-dataset
+Yuix Networks, blocked-sites-dataset, https://doi.org/10.5281/zenodo.22769312
+Derived from OONI (https://ooni.org), CC BY-NC-SA 4.0.
 ```
 
 ## Licence
