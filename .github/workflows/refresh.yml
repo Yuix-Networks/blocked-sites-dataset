@@ -65,11 +65,14 @@ jobs:
           PY
 
       - name: Commit
+        id: commit
         run: |
           if git diff --quiet -- data/; then
             echo "Nothing changed." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -86,6 +89,36 @@ jobs:
 
           git commit -F /tmp/commit-message
           git push
+
+      # A GitHub release is a fixed, downloadable snapshot of a month —
+      # useful on its own, and the trigger Zenodo watches. With the Zenodo
+      # integration switched on for this repository, each release is
+      # archived and gets its own DOI, under one concept DOI that always
+      # resolves to the newest. Delete this step to stop that.
+      - name: Tag the month
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          month=$(ls data/monthly/*.csv | sort | tail -1 | xargs basename | sed 's/.csv//')
+          tag="data-$month"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "$tag already released."
+            exit 0
+          fi
+
+          rows=$(( $(wc -l < "data/monthly/$month.csv") - 1 ))
+          countries=$(cut -d, -f2 "data/monthly/$month.csv" | tail -n +2 | sort -u | wc -l)
+
+          git pull --ff-only
+          gh release create "$tag" \
+            "data/monthly/$month.csv" \
+            --title "Data for $month" \
+            --notes "$rows rows across $countries countries, rebuilt from OONI's public measurements.
+
+          Confirmed blocks and anomalies are separate columns and must not be added together — see [METHODOLOGY.md](METHODOLOGY.md).
+
+          Data: OONI (https://ooni.org), CC BY-NC-SA 4.0."
 
       - name: Report
         if: always()

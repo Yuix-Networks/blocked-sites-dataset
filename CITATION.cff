@@ -1,0 +1,37 @@
+# Rendered by GitHub as a "Cite this repository" button, and read by
+# Zenodo when a release is archived. Keep it in step with .zenodo.json.
+cff-version: 1.2.0
+title: >-
+  Blocked sites dataset: which websites are measurably blocked,
+  by country and month
+message: >-
+  If you use this dataset, please cite both it and OONI, whose
+  measurements it is derived from.
+type: dataset
+authors:
+  - name: Yuix Networks Inc
+    website: "https://yuix.org"
+repository-code: "https://github.com/Yuix-Networks/blocked-sites-dataset"
+url: "https://www.unblockmaster.com/internet-censorship-tracker/"
+abstract: >-
+  Per-country, per-domain website reachability derived from OONI's public
+  web_connectivity measurements, published as one CSV per month. Confirmed
+  blocks and anomalies are recorded as separate columns and must never be
+  summed: the first means censorship was positively identified, the second
+  means a connection failed in a way that censorship causes and so does an
+  ordinary outage.
+keywords:
+  - internet censorship
+  - website blocking
+  - network measurement
+  - OONI
+  - internet freedom
+  - open data
+license: CC-BY-NC-SA-4.0
+references:
+  - type: data
+    title: OONI measurement data
+    authors:
+      - name: Open Observatory of Network Interference
+    url: "https://ooni.org"
+    license: CC-BY-NC-SA-4.0

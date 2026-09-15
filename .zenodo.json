@@ -1,0 +1,41 @@
+{
+  "upload_type": "dataset",
+  "title": "Blocked sites dataset: which websites are measurably blocked, by country and month",
+  "description": "<p>Per-country, per-domain website reachability derived from <a href=\"https://ooni.org\">OONI</a>'s public <code>web_connectivity</code> measurements, published as one CSV per month.</p><p>For each country and domain the dataset records how many tests ran, how many confirmed a block, how many were anomalous, how many reached the site normally, and how many failed. <strong>Confirmed and anomalous counts are separate columns and must never be added together</strong>: a confirmed block means censorship was positively identified, typically by a block page, while an anomaly means a connection failed in a way that censorship causes and so does an ordinary outage. Summing them inflates blocking figures, in some countries several-fold.</p><p>Countries need at least 1,000 measurements in the month and at least one confirmed block to appear; domains need at least 20 measurements in that country. Rows where nothing was blocked are kept deliberately, so that a domain absent from a country is unambiguously untested rather than possibly tested and reachable.</p><p>Known limits, stated because they matter for any reuse: the domains tested come largely from the Citizen Lab test lists and are curated rather than exhaustive, so absence is usually evidence of no test rather than of no block; OONI probes are run by volunteers and reflect the networks those volunteers are on, not a random sample; and a month is long enough that blocks starting or ending mid-month appear as partial rates.</p><p>The underlying measurements are OONI's and are licensed CC BY-NC-SA 4.0; this dataset is a derivative and carries the same terms. The code that builds it is MIT.</p>",
+  "access_right": "open",
+  "license": "cc-by-nc-sa-4.0",
+  "creators": [
+    {
+      "name": "Yuix Networks Inc",
+      "affiliation": "Unblock Master"
+    }
+  ],
+  "keywords": [
+    "internet censorship",
+    "website blocking",
+    "network measurement",
+    "OONI",
+    "internet freedom",
+    "deep packet inspection",
+    "open data",
+    "censorship measurement"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://ooni.org",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://www.unblockmaster.com/internet-censorship-tracker/",
+      "relation": "isSupplementTo",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://www.unblockmaster.com/how-to-access/",
+      "relation": "isSupplementTo",
+      "resource_type": "dataset"
+    }
+  ],
+  "language": "eng"
+}
